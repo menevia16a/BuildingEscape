@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright 2017 Veilbreaker Entertainment
 
 #include "PositionReport.h"
 #include "GameFramework/Actor.h"
@@ -19,9 +19,11 @@ void UPositionReport::BeginPlay()
 {
 	Super::BeginPlay();
 
+	//Get's the owning actor's name and location while converting the location to a string
 	FString ObjectName = GetOwner()->GetName();
 	FString ObjectPos = GetOwner()->GetActorLocation().ToString();
 
+	//Prints the text in the UE4 Output Log in yellow text reporting the actor's location
 	UE_LOG(LogTemp, Warning, TEXT("PositionReport: %s reporting for duty at %s!"), *ObjectName, *ObjectPos);
 	
 }
