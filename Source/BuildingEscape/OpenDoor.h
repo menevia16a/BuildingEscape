@@ -21,6 +21,8 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
+	void OpenDoor();
+
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
@@ -28,8 +30,11 @@ public:
 private:
 	//UPROPERTY is Unreal engine specific, read documentation.
 	UPROPERTY(VisibleAnywhere)
-	float OpenAngle = 90.f;
+		float OpenAngle = 90.f;
 
 	UPROPERTY(EditAnywhere)
-	ATriggerVolume* PressurePlate;
+		ATriggerVolume* PressurePlate;
+
+	UPROPERTY(EditAnywhere)
+		AActor* ActorThatOpens; //APawn would also be usable in this case
 };
