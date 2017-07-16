@@ -22,6 +22,7 @@ protected:
 	virtual void BeginPlay() override;
 
 	void OpenDoor();
+	void CloseDoor();
 
 public:	
 	// Called every frame
@@ -29,11 +30,17 @@ public:
 
 private:
 	//UPROPERTY is Unreal engine specific, read documentation.
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(EditAnywhere)
 		float OpenAngle = 90.f;
 
 	UPROPERTY(EditAnywhere)
 		ATriggerVolume* PressurePlate;
 
+	UPROPERTY(EditAnywhere)
+		float DoorCloseDelay = 1.f;
+
+	float LastDoorOpenTime;
+
 	AActor* ActorThatOpens; //APawn would also be usable in this case (it inherits from Actor)
+	AActor* Owner;
 };
