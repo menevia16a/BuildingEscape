@@ -41,14 +41,32 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 	);
 
 	//Log out to test
-	UE_LOG(LogTemp, Warning, TEXT("Location: %s, Rotation: %s"), 
+	UE_LOG(LogTemp, Warning, TEXT("Location: %s, Rotation: %s"),
 		*PlayerViewPointLocation.ToString(),
 		*PlayerViewPointRotation.ToString()
-		)
+	)
+
+		//Setup query parameters
+		FCollisionQueryParams TraceParameters(FName(TEXT("")), false, GetOwner());
 
 	//Ray-cast out to reach distance
+	FHitResult Hit;
+	FVector LineTraceEnd = PlayerViewPointLocation + PlayerViewPointRotation.Vector() * Reach;
+
+	GetWorld()->LineTraceSingleByObjectType(
+		OUT Hit,
+		PlayerViewPointLocation,
+		LineTraceEnd,
+		FCollisionObjectQueryParams(ECollisionChannel::ECC_PhysicsBody),
+		TraceParameters
+	);
 
 	//See what we hit
+	AActor* ActorHit = Hit.GetActor();
 
+	if (ActorHit)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Ray-cast hit: %s"), *(ActorHit->GetName()))
+	}
 }
 
