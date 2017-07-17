@@ -24,7 +24,7 @@ void UPositionReport::BeginPlay()
 	FString ObjectPos = GetOwner()->GetActorLocation().ToString();
 
 	//Prints the text in the UE4 Output Log in yellow text reporting the actor's location
-	UE_LOG(LogTemp, Warning, TEXT("PositionReport: %s reporting for duty at %s!"), *ObjectName, *ObjectPos);
+	UE_LOG(LogTemp, Warning, TEXT("PositionReport: %s reporting for duty at %s!"), *ObjectName, *ObjectPos)
 	
 }
 
