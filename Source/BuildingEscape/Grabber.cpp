@@ -22,12 +22,14 @@ void UGrabber::BeginPlay()
 {
 	Super::BeginPlay();
 
-	UE_LOG(LogTemp, Warning, TEXT("Grabber reporting for duty!"))
+	FindPhysicsHandleComponent();
+	SetupInputComponent();
+}
 
+void UGrabber::FindPhysicsHandleComponent()
+{
 	//Look for attached Physics Handle
 	PhysicsHandle = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
-	//Look for attached Input Component
-	InputComponent = GetOwner()->FindComponentByClass<UInputComponent>();
 
 	if (PhysicsHandle)
 	{
@@ -37,6 +39,12 @@ void UGrabber::BeginPlay()
 	{
 		UE_LOG(LogTemp, Error, TEXT("% missing physics handle component!"), *GetOwner()->GetName())
 	}
+}
+
+void UGrabber::SetupInputComponent()
+{
+	//Look for attached Input Component
+	InputComponent = GetOwner()->FindComponentByClass<UInputComponent>();
 
 	if (InputComponent)
 	{
@@ -54,13 +62,16 @@ void UGrabber::BeginPlay()
 //Grab action key has been pressed
 void UGrabber::Grab()
 {
+	//Ray-cast reach any actors with physics body collision channel set
+	GetFirstPhysicsBodyInReach();
 
+	//If something was hit then attach a physics handle
 }
 
 //Grab action key has been released
 void UGrabber::Release()
 {
-
+	//Release physics
 }
 
 // Called every frame
@@ -68,6 +79,12 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
+	//If physicsc handle is attached
+		//Move the object that we're holding
+}
+
+const FHitResult UGrabber::GetFirstPhysicsBodyInReach()
+{
 	//Get player view point this tick
 	FVector PlayerViewPointLocation;
 	FRotator PlayerViewPointRotation;
@@ -90,5 +107,7 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 		FCollisionObjectQueryParams(ECollisionChannel::ECC_PhysicsBody),
 		TraceParameters
 	);
+
+	return FHitResult();
 }
 
