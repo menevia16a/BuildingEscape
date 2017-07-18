@@ -34,7 +34,7 @@ private:
 		float OpenAngle = 90.f;
 
 	UPROPERTY(EditAnywhere)
-		ATriggerVolume* PressurePlate;
+		ATriggerVolume* PressurePlate = nullptr;
 
 	UPROPERTY(EditAnywhere)
 		float DoorCloseDelay = 1.f;
@@ -45,6 +45,5 @@ private:
 	float LastDoorOpenTime;
 	float GetTotalMassOfActorsOnPlate(); //Returns total mass in kg
 
-	AActor* ActorThatOpens; //APawn would also be usable in this case (it inherits from Actor)
-	AActor* Owner;
+	AActor* Owner = nullptr;
 };

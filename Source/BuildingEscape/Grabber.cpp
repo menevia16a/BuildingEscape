@@ -53,6 +53,21 @@ void UGrabber::SetupInputComponent()
 	}
 }
 
+// Called every frame
+void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+{
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	if (!PhysicsHandle) { return; }
+
+	//If physicsc handle is attached
+	if (PhysicsHandle->GrabbedComponent)
+	{
+		//Move the object that we're holding
+		PhysicsHandle->SetTargetLocation(GetReachLineEnd());
+	}
+}
+
 //Grab action key has been pressed
 void UGrabber::Grab()
 {
@@ -65,6 +80,8 @@ void UGrabber::Grab()
 	if (ActorHit)
 	{
 		//Attach physics handle
+		if (!PhysicsHandle) { return; }
+
 		PhysicsHandle->GrabComponent(
 			ComponentToGrab,
 			NAME_None, //No bones needed
@@ -77,20 +94,9 @@ void UGrabber::Grab()
 //Grab action key has been released
 void UGrabber::Release()
 {
+	if (!PhysicsHandle) { return; }
+
 	PhysicsHandle->ReleaseComponent();
-}
-
-// Called every frame
-void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	//If physicsc handle is attached
-	if (PhysicsHandle->GrabbedComponent)
-	{
-		//Move the object that we're holding
-		PhysicsHandle->SetTargetLocation(GetReachLineEnd());
-	}
 }
 
 const FHitResult UGrabber::GetFirstPhysicsBodyInReach()
